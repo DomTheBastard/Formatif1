@@ -24,7 +24,7 @@ namespace Halloween.Controllers
         // GET: Sorcieres
         public async Task<IActionResult> Index()
         {
-            List<Sorciere> ListeSorciere = await _context.Sorcieres.ToListAsync();
+            List<Sorciere> ListeSorciere = await _context.Sorcieres.OrderBy(s => s.Origine).ThenBy(s => s.Nom).ToListAsync();
 
             return View(ListeSorciere);
         }
@@ -38,6 +38,23 @@ namespace Halloween.Controllers
             {
                 return NotFound();
             }
+
+            sorcieres_VM.NbPotions = await _context.Potions.Where(p => p.Sorciere_Id == id).CountAsync();
+
+            //Fonctionne aussi, mais une ligne c'est plus beau ;)
+            //List<Potion> potList = await _context.Potions.Where(p => p.Sorciere_Id == id).Include(dp => dp.DetailsPotion).ToListAsync();
+
+            //float litres = 0;
+            //foreach (Potion potion in potList)
+            //{
+            //    var details = potion.DetailsPotion;
+            //    litres += details.VolumeEnLitre;
+            //}
+            //sorcieres_VM.VolumeMoy = litres / sorcieres_VM.NbPotions;
+
+            sorcieres_VM.VolumeMoy = await _context.Potions.Where(p => p.Sorciere_Id == id).Include(dp => dp.DetailsPotion).AverageAsync(v => v.DetailsPotion.VolumeEnLitre);
+
+
 
             return View(sorcieres_VM);
         }

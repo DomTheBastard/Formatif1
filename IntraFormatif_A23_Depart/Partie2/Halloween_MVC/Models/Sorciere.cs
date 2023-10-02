@@ -8,6 +8,7 @@ namespace Halloween.Models
         public int Id { get; set; }
         public string Nom { get; set; }
         public string Origine { get; set; }
+
         [ValidateNever]
         public List<Potion> Potions { get; set; }
     }

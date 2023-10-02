@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.Nom)
             </th>
             <th>
-                LABEL CRÉATRICE
+                @Html.DisplayNameFor(model => model.Creatrice.Nom)
             </th>
             <th></th>
         </tr>
@@ -28,7 +28,7 @@
                 @Html.DisplayFor(modelItem => item.Nom)
             </td>
             <td>
-                NOM_CRÉATRICE
+                @Html.DisplayFor(modelItem => item.Creatrice.Nom)
             </td>
             <td>
                     <a class="btn btn-info mx-2" asp-action="Edit" asp-route-id="@item.Id">Modifier</a>

@@ -23,7 +23,7 @@ namespace Halloween.Controllers
         // GET: Potions
         public async Task<IActionResult> Index()
         {
-            var ListePotions = await _context.Potions.ToListAsync();
+            var ListePotions = await _context.Potions.Include(s => s.Creatrice).ToListAsync();
             return View(ListePotions);
         }
 
@@ -53,7 +53,7 @@ namespace Halloween.Controllers
                 return NotFound();
             }
 
-            var sorciere = await _context.Sorcieres
+            var sorciere = await _context.Sorcieres.Include(p => p.Potions)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sorciere == null)
             {
